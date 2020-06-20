@@ -1,0 +1,24 @@
+operation = not addVar = added0 varName = null
+left:
+    operation = conjunction addVar = added1 varName = null
+    left:
+        operation = disjunction addVar = added2 varName = null
+        left:
+            operation = variable addVar = null varName = F
+            left:
+            right:
+        right:
+            operation = conjunction addVar = added3 varName = null
+            left:
+                operation = variable addVar = null varName = F
+                left:
+                right:
+            right:
+                operation = variable addVar = null varName = T
+                left:
+                right:
+    right:
+        operation = variable addVar = null varName = T
+        left:
+        right:
+right:
