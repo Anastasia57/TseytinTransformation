@@ -1,9 +1,10 @@
 package com.company;
 
 import java.io.*;
+import java.util.HashSet;
 
-public class Main {
-    // if TypeOperation is an operation? not a variable
+public class TseytinTransformation {
+    // if TypeOperation is an operation, not a variable or undefined or parentheses
     public static boolean isOperation(TypeOperation t){
         return ((t != TypeOperation.undefined) &&
                 (t != TypeOperation.open) &&
@@ -13,6 +14,7 @@ public class Main {
 
     // String representation to TypeOperation
     public static TypeOperation getOpType(String str){
+        if(str == null){return TypeOperation.undefined; }
         if(str.equals("")){return TypeOperation.undefined;}
         if(str.equals("&&")){return TypeOperation.conjunction;}
         if(str.equals("||")){ return TypeOperation.disjunction;}
@@ -25,7 +27,8 @@ public class Main {
         return TypeOperation.variable;
     }
 
-    /*public static String getOpSymbol(TypeOperation t){
+    //TypeOperation to String representation
+    public static String getOpSymbol(TypeOperation t){
         if(t == TypeOperation.undefined){return "";}
         if(t == TypeOperation.conjunction){return "&&";}
         if(t == TypeOperation.disjunction){ return "||";}
@@ -35,9 +38,9 @@ public class Main {
         if(t == TypeOperation.open){return "(";}
         if(t == TypeOperation.close){return ")";}
         if(t == TypeOperation.variable){return "";}
-        if(t == TypeOperation.xor){return "";}
+        if(t == TypeOperation.xor){return "+";}
         return "";
-    }*/
+    }
 
     // creates formula tree from a split text formula
     public static int makeTree(String[] formula, int start, int stop, NodeFormula root){
@@ -107,7 +110,8 @@ public class Main {
     }
 
     // creates additional variables, which are needed for transformation
-    public static int addVariables(NodeFormula root, int start){
+    // they have a name? dut not an id
+    private static int addVariables(NodeFormula root, int start){
         if(root == null){
             return start;
         }
@@ -118,6 +122,7 @@ public class Main {
         int left = addVariables(root.left, start);
         return addVariables(root.right, left);
     }
+
     // writes formula tree, just for checking
     static void TsTreeWalk(NodeFormula root, FileWriter Writer, int shift) throws IOException {
         if(root == null){
@@ -131,60 +136,40 @@ public class Main {
             Writer.write(" ");
         }
         Writer.write("left:\n");
-        TsTreeWalk(root.left, Writer, shift + 4);
+        TsTreeWalk(root.left, Writer, shift + 1);
         for(int i = 0; i <shift; ++i){
             Writer.write(" ");
         }
         Writer.write("right:\n");
-        TsTreeWalk(root.right, Writer, shift + 4);
+        TsTreeWalk(root.right, Writer, shift + 1);
     }
-
-    /*static void writeFormula(NodeFormula root, FileWriter Writer, int shift) throws IOException {
-        if(root == null){
-            return;
-        }
-        for(int i = 0; i <shift; ++i){
-            Writer.write(" ");
-        }
-        Writer.write("operation = " + root.operation + " addVar = " + root.addVar + " varName = " + root.varName + "\n");
-        for(int i = 0; i <shift; ++i){
-            Writer.write(" ");
-        }
-        Writer.write("left:\n");
-        treeWalk(root.left, Writer, shift + 4);
-        for(int i = 0; i <shift; ++i){
-            Writer.write(" ");
-        }
-        Writer.write("right:\n");
-        treeWalk(root.right, Writer, shift + 4);
-    }*/
 
     // these functions add CNF clauses(according to possible types of operations) to a new tree for CNF
 
-    static void transformCon(NodeFormula newRoot, String C, String A, String B){
+    private static void transformCon(NodeFormula newRoot, String C, String A, String B){
         String newFormula = "( ( ! " + A + " ) || ( ! " + B + " ) || " + C +
                 " ) && ( " + A + " || ( ! " + C +
-                " ) ) && ( " + B + " || ( ! " + C + " ) )";
+                " ) ) && ( "  + B + " || ( ! " + C + " ) )";
         //System.out.println(newFormula);
         String[] str = newFormula.trim().split("\\s+");
         makeTree(str, 0, str.length, newRoot);
     }
-    static void transformDis(NodeFormula newRoot, String C, String A, String B){
+    private static void transformDis(NodeFormula newRoot, String C, String A, String B){
         String newFormula = "( " + A + " || " + B + " || ( ! " + C +
-                " ) ) && ( ( ! " + A + " ) || " + C +
+                " ) ) && ( ( ! " + A + " ) || "  + C +
                 " ) && ( ( ! " + B + " ) || " + C + " )";
         //System.out.println(newFormula);
         String[] str = newFormula.trim().split("\\s+");
         makeTree(str, 0, str.length, newRoot);
     }
-    static void transformNot(NodeFormula newRoot, String C, String A){
+    private static void transformNot(NodeFormula newRoot, String C, String A){
         String newFormula = "( ( ! " + A + " ) || ( ! " + C +
                 " ) ) && ( " + A + " || " + C + " )";
         //System.out.println(newFormula);
         String[] str = newFormula.trim().split("\\s+");
         makeTree(str, 0, str.length, newRoot);
     }
-    static void transformImpl(NodeFormula newRoot, String C, String A, String B){
+    private static void transformImpl(NodeFormula newRoot, String C, String A, String B){
         String newFormula = "( " + A + " || " + B + " || " + C +
                 " ) && ( " + A + " || ( ! " + B + " ) || " + C +
                 " ) && ( ( ! " + A + " ) || ( ! " + B + " ) || " + C +
@@ -194,7 +179,7 @@ public class Main {
         String[] str = newFormula.trim().split("\\s+");
         makeTree(str, 0, str.length, newRoot);
     }
-    static void transformEquiv(NodeFormula newRoot, String C, String A, String B){
+    private static void transformEquiv(NodeFormula newRoot, String C, String A, String B){
         String newFormula = "( " + A + " || ( ! " + B + " ) || ( ! " + C +
                 " ) ) && ( ( ! " + A + " ) || " + B + " || ( ! " + C +
                 " ) ) && ( ( ! " + A + " ) || ( ! " + B + " ) || " + C +
@@ -204,7 +189,7 @@ public class Main {
         String[] str = newFormula.trim().split("\\s+");
         makeTree(str, 0, str.length, newRoot);
     }
-    static void transformXor(NodeFormula newRoot, String C, String A, String B){
+    private static void transformXor(NodeFormula newRoot, String C, String A, String B){
         String newFormula = "( ( ! " + A + " ) || ( ! " + B + " ) || ( ! " + C +
                 " ) ) && ( " + A + " || " + B + " || ( ! " + C +
                 " ) ) && ( " + A + " || ( ! " + B + " ) || " + C +
@@ -242,7 +227,7 @@ public class Main {
     }
 
     // calls transforming functions for all operation nodes according to type
-    public static void transformToCNF(NodeFormula root, NodeFormula newRoot){
+    private static void transformToCNF(NodeFormula root, NodeFormula newRoot){
         if((root == null) || (root.operation == TypeOperation.variable)){
             return;
         }
@@ -279,33 +264,137 @@ public class Main {
         transformToCNF(root.left, newRoot);
     }
 
+    public static void startTransformationCNF(NodeFormula root, NodeFormula newRoot) {
+        addVariables(root, 0);
+        newRoot.operation = TypeOperation.conjunction;
+        newRoot.right = new NodeFormula();
+        newRoot.right.operation = TypeOperation.variable;
+        newRoot.right.varName = root.addVar;
+        newRoot.left = new NodeFormula();
+        newRoot = newRoot.left;
+        transformToCNF(root, newRoot);
+    }
+
+    static private void writeClauseSMT(NodeFormula root, FileWriter Writer, int start) throws IOException {
+        if(root == null){
+            return;
+        }
+        if(start == 1){
+            Writer.write("(assert (or ");
+        }
+
+        if(root.operation == TypeOperation.not){
+            Writer.write("(not ");
+            writeClauseSMT(root.left, Writer, 0);
+            writeClauseSMT(root.right, Writer, 0);
+            Writer.write(") ");
+            return;
+        }
+        if(root.operation == TypeOperation.variable){
+            Writer.write(root.varName + " ");
+            return;
+        }
+        writeClauseSMT(root.left, Writer, 0);
+        writeClauseSMT(root.right, Writer, 0);
+        if(start == 1){
+            Writer.write("))\n");
+        }
+    }
+
+    static private void treeWalkSMT(NodeFormula root, FileWriter Writer) throws IOException {
+        if(root == null){
+            return;
+        }
+        if(root.operation == TypeOperation.disjunction){
+            writeClauseSMT(root, Writer, 1);
+            return;
+        }
+        if(root.operation == TypeOperation.variable){
+            Writer.write("(assert " + root.varName + " )\n");
+        }
+        treeWalkSMT(root.left, Writer);
+        treeWalkSMT(root.right, Writer);
+    }
+
+    static private HashSet<String> declareVariablesSMT(NodeFormula root, FileWriter Writer, HashSet<String> varNames) throws IOException {
+        if(root == null){
+            return varNames;
+        }
+        if(root.varName != null){
+            if(!varNames.contains(root.varName)){
+                varNames.add(root.varName);
+                if(root.varName == null){
+                    System.out.println("root.var = " + root.var);
+                }
+                Writer.write("(declare-const " + root.varName + " Bool)\n");
+            }
+            return varNames;
+        }
+        varNames = declareVariablesSMT(root.left, Writer, varNames);
+        varNames = declareVariablesSMT(root.right, Writer,varNames);
+        return varNames;
+    }
+    // writes CNF formula in SMT format in file filename(which is created)
+    static void writeSmtCNF(NodeFormula root, String filename) {
+        try {
+            File formulaFile = new File(filename);
+            if (!formulaFile.createNewFile()) {
+                System.out.println("File already exists.");
+            }
+            FileWriter Writer = new FileWriter(filename);
+            HashSet<String> varNames = new HashSet<>();
+            declareVariablesSMT(root, Writer, varNames);
+            treeWalkSMT(root, Writer);
+            Writer.write("(check-sat)\n");
+            Writer.write("(get-model)\n");
+            Writer.close();
+        } catch (IOException e) {
+            System.out.println("An error occured.");
+            e.printStackTrace();
+        }
+    }
+
+    // reads input file and splits by whitespace
+    public static String[] formulaFromFile(String filePath){
+        String str = "";
+        try {
+            File file = new File(filePath);
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+                sb.append(" ");
+            }
+            fr.close();
+            str = sb.toString();
+            return str.trim().split("\\s+");
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+        return str.trim().split("\\s+");
+    }
+
     // gets in arguments the path to the file containing boolean formula, the formula must be written according to format to work correctly
     // All operations and variables must be divided by whitespace, (! A && B ) is not ( ! A ) && B,  (! A && B) is  ! ( A && B )
     public static void main(String[] args){
         try {
             String filePath;
             filePath = args[0];
-            File file = new File(filePath);
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while((line=br.readLine())!=null){
-                sb.append(line);
-                sb.append(" ");
-            }
-            fr.close();
-            String str = sb.toString();
-            String[] split = str.trim().split("\\s+");
+            //filePath = "/home/nastya/Documents/java/Demo.txt";
+            String[] split = formulaFromFile(filePath);
+
             NodeFormula root = new NodeFormula();
             makeTree(split, 0, split.length, root);
-            addVariables(root, 0);
             FileWriter Writer = new FileWriter("treeFile.txt");
             TsTreeWalk(root, Writer, 0);
             Writer.close();
 
             NodeFormula place = new NodeFormula();
             place.operation = TypeOperation.conjunction;
+            startTransformationCNF(root, place);
             transformToCNF(root, place);
             FileWriter WriterNew = new FileWriter("newTreeFile.txt");
             TsTreeWalk(place, WriterNew, 0);

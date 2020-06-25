@@ -1,6 +1,6 @@
 package com.company;
 
-public enum TypeOperation {
+public enum TypeOperation { // string representations
     conjunction, // &&
     disjunction, // ||
     variable, // anything else

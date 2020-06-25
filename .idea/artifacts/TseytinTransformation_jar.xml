@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TseytinTransformation:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TseytinTransformation_jar</output-path>
+    <root id="archive" name="TseytinTransformation.jar">
+      <element id="module-output" name="TseytinTransformation" />
+    </root>
+  </artifact>
+</component>

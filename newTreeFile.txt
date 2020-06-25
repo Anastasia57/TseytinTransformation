@@ -1,48 +1,171 @@
 operation = conjunction addVar = null varName = null
 left:
-    operation = conjunction addVar = null varName = null
+    operation = undefined addVar = null varName = null
     left:
         operation = conjunction addVar = null varName = null
         left:
             operation = conjunction addVar = null varName = null
             left:
-                operation = disjunction addVar = null varName = null
+                operation = conjunction addVar = null varName = null
                 left:
-                    operation = not addVar = null varName = null
+                    operation = disjunction addVar = null varName = null
                     left:
                         operation = variable addVar = null varName = added1
                         left:
                         right:
                     right:
-                right:
-                    operation = not addVar = null varName = null
-                    left:
-                        operation = variable addVar = null varName = added0
+                        operation = disjunction addVar = null varName = null
                         left:
+                            operation = variable addVar = null varName = added3
+                            left:
+                            right:
+                        right:
+                            operation = variable addVar = null varName = added0
+                            left:
+                            right:
+                right:
+                    operation = conjunction addVar = null varName = null
+                    left:
+                        operation = disjunction addVar = null varName = null
+                        left:
+                            operation = variable addVar = null varName = added1
+                            left:
+                            right:
+                        right:
+                            operation = disjunction addVar = null varName = null
+                            left:
+                                operation = not addVar = null varName = null
+                                left:
+                                    operation = variable addVar = null varName = added3
+                                    left:
+                                    right:
+                                right:
+                            right:
+                                operation = variable addVar = null varName = added0
+                                left:
+                                right:
+                    right:
+                        operation = conjunction addVar = null varName = null
+                        left:
+                            operation = disjunction addVar = null varName = null
+                            left:
+                                operation = not addVar = null varName = null
+                                left:
+                                    operation = variable addVar = null varName = added1
+                                    left:
+                                    right:
+                                right:
+                            right:
+                                operation = disjunction addVar = null varName = null
+                                left:
+                                    operation = not addVar = null varName = null
+                                    left:
+                                        operation = variable addVar = null varName = added3
+                                        left:
+                                        right:
+                                    right:
+                                right:
+                                    operation = variable addVar = null varName = added0
+                                    left:
+                                    right:
+                        right:
+                            operation = disjunction addVar = null varName = null
+                            left:
+                                operation = not addVar = null varName = null
+                                left:
+                                    operation = variable addVar = null varName = added1
+                                    left:
+                                    right:
+                                right:
+                            right:
+                                operation = disjunction addVar = null varName = null
+                                left:
+                                    operation = not addVar = null varName = null
+                                    left:
+                                        operation = variable addVar = null varName = added3
+                                        left:
+                                        right:
+                                    right:
+                                right:
+                                    operation = not addVar = null varName = null
+                                    left:
+                                        operation = variable addVar = null varName = added0
+                                        left:
+                                        right:
+                                    right:
+            right:
+                operation = conjunction addVar = null varName = null
+                left:
+                    operation = disjunction addVar = null varName = null
+                    left:
+                        operation = not addVar = null varName = null
+                        left:
+                            operation = variable addVar = null varName = added2
+                            left:
+                            right:
                         right:
                     right:
-            right:
-                operation = disjunction addVar = null varName = null
-                left:
-                    operation = variable addVar = null varName = added1
-                    left:
-                    right:
+                        operation = disjunction addVar = null varName = null
+                        left:
+                            operation = not addVar = null varName = null
+                            left:
+                                operation = variable addVar = null varName = r
+                                left:
+                                right:
+                            right:
+                        right:
+                            operation = variable addVar = null varName = added1
+                            left:
+                            right:
                 right:
-                    operation = variable addVar = null varName = added0
+                    operation = conjunction addVar = null varName = null
                     left:
+                        operation = disjunction addVar = null varName = null
+                        left:
+                            operation = variable addVar = null varName = added2
+                            left:
+                            right:
+                        right:
+                            operation = not addVar = null varName = null
+                            left:
+                                operation = variable addVar = null varName = added1
+                                left:
+                                right:
+                            right:
                     right:
+                        operation = not addVar = null varName = null
+                        left:
+                            operation = disjunction addVar = null varName = null
+                            left:
+                                operation = variable addVar = null varName = added2
+                                left:
+                                right:
+                            right:
+                                operation = disjunction addVar = null varName = null
+                                left:
+                                    operation = variable addVar = null varName = r
+                                    left:
+                                    right:
+                                right:
+                                    operation = not addVar = null varName = null
+                                    left:
+                                        operation = variable addVar = null varName = added1
+                                        left:
+                                        right:
+                                    right:
+                        right:
         right:
             operation = conjunction addVar = null varName = null
             left:
                 operation = disjunction addVar = null varName = null
                 left:
-                    operation = variable addVar = null varName = F
+                    operation = variable addVar = null varName = p
                     left:
                     right:
                 right:
                     operation = disjunction addVar = null varName = null
                     left:
-                        operation = variable addVar = null varName = added3
+                        operation = variable addVar = null varName = q
                         left:
                         right:
                     right:
@@ -59,20 +182,26 @@ left:
                     left:
                         operation = not addVar = null varName = null
                         left:
-                            operation = variable addVar = null varName = F
+                            operation = variable addVar = null varName = p
                             left:
                             right:
                         right:
                     right:
-                        operation = variable addVar = null varName = added2
+                        operation = disjunction addVar = null varName = null
                         left:
+                            operation = variable addVar = null varName = q
+                            left:
+                            right:
                         right:
+                            operation = variable addVar = null varName = added2
+                            left:
+                            right:
                 right:
                     operation = disjunction addVar = null varName = null
                     left:
                         operation = not addVar = null varName = null
                         left:
-                            operation = variable addVar = null varName = added3
+                            operation = variable addVar = null varName = q
                             left:
                             right:
                         right:
@@ -87,100 +216,28 @@ left:
             left:
                 operation = not addVar = null varName = null
                 left:
-                    operation = variable addVar = null varName = F
+                    operation = variable addVar = null varName = s
                     left:
                     right:
                 right:
             right:
-                operation = disjunction addVar = null varName = null
+                operation = not addVar = null varName = null
                 left:
-                    operation = not addVar = null varName = null
-                    left:
-                        operation = variable addVar = null varName = T
-                        left:
-                        right:
-                    right:
-                right:
                     operation = variable addVar = null varName = added3
                     left:
                     right:
+                right:
         right:
-            operation = conjunction addVar = null varName = null
+            operation = disjunction addVar = null varName = null
             left:
-                operation = disjunction addVar = null varName = null
+                operation = variable addVar = null varName = s
                 left:
-                    operation = variable addVar = null varName = F
-                    left:
-                    right:
                 right:
-                    operation = not addVar = null varName = null
-                    left:
-                        operation = variable addVar = null varName = added3
-                        left:
-                        right:
-                    right:
             right:
-                operation = disjunction addVar = null varName = null
+                operation = variable addVar = null varName = added3
                 left:
-                    operation = variable addVar = null varName = T
-                    left:
-                    right:
                 right:
-                    operation = not addVar = null varName = null
-                    left:
-                        operation = variable addVar = null varName = added3
-                        left:
-                        right:
-                    right:
 right:
-    operation = conjunction addVar = null varName = null
+    operation = variable addVar = null varName = added0
     left:
-        operation = disjunction addVar = null varName = null
-        left:
-            operation = not addVar = null varName = null
-            left:
-                operation = variable addVar = null varName = added2
-                left:
-                right:
-            right:
-        right:
-            operation = disjunction addVar = null varName = null
-            left:
-                operation = not addVar = null varName = null
-                left:
-                    operation = variable addVar = null varName = T
-                    left:
-                    right:
-                right:
-            right:
-                operation = variable addVar = null varName = added1
-                left:
-                right:
     right:
-        operation = conjunction addVar = null varName = null
-        left:
-            operation = disjunction addVar = null varName = null
-            left:
-                operation = variable addVar = null varName = added2
-                left:
-                right:
-            right:
-                operation = not addVar = null varName = null
-                left:
-                    operation = variable addVar = null varName = added1
-                    left:
-                    right:
-                right:
-        right:
-            operation = disjunction addVar = null varName = null
-            left:
-                operation = variable addVar = null varName = T
-                left:
-                right:
-            right:
-                operation = not addVar = null varName = null
-                left:
-                    operation = variable addVar = null varName = added1
-                    left:
-                    right:
-                right:

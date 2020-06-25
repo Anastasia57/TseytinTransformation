@@ -1,24 +1,24 @@
-operation = not addVar = added0 varName = null
+operation = implication addVar = null varName = null
 left:
-    operation = conjunction addVar = added1 varName = null
+    operation = conjunction addVar = null varName = null
     left:
-        operation = disjunction addVar = added2 varName = null
+        operation = disjunction addVar = null varName = null
         left:
-            operation = variable addVar = null varName = F
+            operation = variable addVar = null varName = p
             left:
             right:
         right:
-            operation = conjunction addVar = added3 varName = null
+            operation = variable addVar = null varName = q
             left:
-                operation = variable addVar = null varName = F
-                left:
-                right:
             right:
-                operation = variable addVar = null varName = T
-                left:
-                right:
     right:
-        operation = variable addVar = null varName = T
+        operation = variable addVar = null varName = r
         left:
         right:
 right:
+    operation = not addVar = null varName = null
+    left:
+        operation = variable addVar = null varName = s
+        left:
+        right:
+    right:
